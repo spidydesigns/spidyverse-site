@@ -2,13 +2,14 @@ import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 
 /**
- * Quartz 4 Configuration
+ * Spidyverse — Quartz 4 Configuration
  *
- * See https://quartz.jzhao.xyz/configuration for more information.
+ * Publishes only notes with `publish: true` in frontmatter.
+ * Notes without that flag stay private.
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Quartz 4",
+    pageTitle: "Spidyverse",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
@@ -16,8 +17,27 @@ const config: QuartzConfig = {
       provider: "plausible",
     },
     locale: "en-US",
-    baseUrl: "quartz.jzhao.xyz",
-    ignorePatterns: ["private", "templates", ".obsidian"],
+    // IMPORTANT: replace spidydesigns below after first `gh` auth
+    baseUrl: "spidydesigns.github.io/spidyverse-site",
+    ignorePatterns: [
+      "private",
+      "templates",
+      ".obsidian",
+      ".smart-env",
+      ".smtcmp_json_db",
+      ".trash",
+      ".makemd",
+      ".space",
+      ".claude",
+      "CLAUDE.md",
+      "MemorizationPlugin",
+      "media-lib",
+      "Excalidraw",
+      "raw/inbox",
+      "Spidyverse-Velocity.zip",
+      "**/*.xlsx",
+      "**/*.html",
+    ],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",
@@ -73,7 +93,9 @@ const config: QuartzConfig = {
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
     ],
-    filters: [Plugin.RemoveDrafts()],
+    // Publishes ONLY notes with `publish: true` in frontmatter.
+    // Drafts and unflagged notes stay private.
+    filters: [Plugin.ExplicitPublish()],
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
@@ -88,8 +110,6 @@ const config: QuartzConfig = {
       Plugin.Static(),
       Plugin.Favicon(),
       Plugin.NotFoundPage(),
-      // Comment out CustomOgImages to speed up build time
-      Plugin.CustomOgImages(),
     ],
   },
 }
