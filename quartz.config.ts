@@ -22,6 +22,8 @@ const config: QuartzConfig = {
     ignorePatterns: [
       "private",
       "templates",
+      "system/templates",
+      "system/templates/Templates",
       ".obsidian",
       ".smart-env",
       ".smtcmp_json_db",
